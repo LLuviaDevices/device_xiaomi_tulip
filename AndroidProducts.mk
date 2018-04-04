@@ -15,3 +15,9 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/lluvia_tulip.mk
+
+
+COMMON_LUNCH_CHOICES := \
+    lluvia_tulip-user \
+    lluvia_tulip-userdebug \
+    lluvia_tulip-eng
