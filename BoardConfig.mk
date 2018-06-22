@@ -26,6 +26,8 @@ DEVICE_PATH := device/xiaomi/tulip
 
 BOARD_VENDOR := xiaomi
 
+BUILD_BROKEN_DUP_RULES := true
+
 # Use Snapdragon LLVM, if available
 TARGET_USE_SDCLANG := true
 
