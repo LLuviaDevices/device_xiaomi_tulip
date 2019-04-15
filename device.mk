@@ -23,6 +23,12 @@
 
 DEVICE_PATH := device/xiaomi/tulip
 
+# Enable updating of APEXes
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+
+# Inherit properties
+$(call inherit-product, $(DEVICE_PATH)/properties.mk)
+
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
