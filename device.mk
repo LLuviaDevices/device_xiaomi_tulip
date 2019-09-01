@@ -146,6 +146,7 @@ PRODUCT_BOOT_JARS += \
 
 # Camera
 PRODUCT_PACKAGES += \
+    libMiWatermark_shim \
     Snap
 
 PRODUCT_PACKAGES += \
