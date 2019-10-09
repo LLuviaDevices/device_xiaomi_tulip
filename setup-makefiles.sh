@@ -19,7 +19,45 @@ set -e
 
 export DEVICE=tulip
 export VENDOR=xiaomi
-export INITIAL_COPYRIGHT_YEAR=2018
-export DEVICE_COMMON=sdm660-common
 
-./../../$VENDOR/$DEVICE_COMMON/setup-makefiles.sh $@
+
+INITIAL_COPYRIGHT_YEAR=2018
+
+# Load extract_utils and do some sanity checks
+MY_DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
+
+LLUVIA_ROOT="$MY_DIR"/../../..
+
+HELPER="$LLUVIA_ROOT"/vendor/lluvia/build/tools/extract_utils.sh
+if [ ! -f "$HELPER" ]; then
+    echo "Unable to find helper script at $HELPER"
+    exit 1
+fi
+. "$HELPER"
+
+# Initialize the helper
+setup_vendor "$DEVICE" "$VENDOR" "$LLUVIA_ROOT" true
+
+# Copyright headers and guards
+write_headers "tulip"
+
+write_makefiles "$MY_DIR"/proprietary-files.txt true
+
+# Finish
+write_footers
+
+if [ -s "$MY_DIR"/../$DEVICE/proprietary-files.txt ]; then
+    # Reinitialize the helper for device
+    INITIAL_COPYRIGHT_YEAR="$DEVICE_BRINGUP_YEAR"
+    setup_vendor "$DEVICE" "$VENDOR" "$LLUVIA_ROOT" false
+
+    # Copyright headers and guards
+    write_headers
+
+    # The standard device blobs
+    write_makefiles "$MY_DIR"/../$DEVICE/proprietary-files.txt true
+
+    # We are done!
+    write_footers
+fi
